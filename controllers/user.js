@@ -3,7 +3,7 @@ const customerror = require('../helpers/error/customerror');
 
 const getProfile = async (req, res, next) => {
     try {
-        const { id } = req.user.id;
+        const  id  = req.user.id;
         const user = await User.findById(id);
 
         if (!user){
