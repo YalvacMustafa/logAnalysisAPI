@@ -13,7 +13,7 @@ const getAccessToRoute = (req, res, next) => {
             return next(new customerror('Buraya erişim yetkiniz yoktur.', 401))
         }
         req.user = {
-            id: decoded._id,
+            id: decoded.id,
             name: decoded.name
         }
         next();
