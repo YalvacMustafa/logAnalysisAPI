@@ -24,4 +24,19 @@ const login = async (req, res, next) => {
     }
     sendJwtToClient(user, res)
 };
-module.exports = { register, login }
+
+const logout = async (req, res, next) => {
+    const { NODE_ENV } = process.env;
+    return res
+        .status(200)
+        .cookie({
+            htppOnly: true,
+            expires: new Date(Date.now()),
+            secure: NODE_ENV === 'development' ? false : true
+        })
+        .json({
+            success: true,
+            message: 'Çıkış başarılı'
+        })
+}
+module.exports = { register, login, logout }
