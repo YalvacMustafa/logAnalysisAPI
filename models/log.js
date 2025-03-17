@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 
-const logSchmea = new Schema({
+const logSchema= new Schema({
     message: { type: String, required: true },
     level: { type: String, enum: ['info', 'warn', 'error'], required: true },
     timeStamp: { type: Date, default: Date.now },
@@ -9,4 +9,4 @@ const logSchmea = new Schema({
     insights: { type: Object, default: null }
 })
 
-module.exports = mongoose.model('Log', logSchmea)
+module.exports = mongoose.model('Log', logSchema)

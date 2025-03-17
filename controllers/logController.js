@@ -7,24 +7,33 @@ const { AnalyzesLogWithAI } = require('../services/aiServices');
 const createLog = async (req, res) => {
     try {
         const { level, message, metadata } = req.body;
-        const insights = await AnalyzesLogWithAI(message);
-
-        const newLog = new Log({ message, level, metadata, insights });
-        await newLog.save();
-
+        let insights = null;
+        try {
+            insights = await AnalyzesLogWithAI(message);
+        } catch (error){
+            console.error('AI Analizi başarısız.', error.message)
+        }
+        const newLog = await Log.create({
+            message,
+            level,
+            metadata, 
+            insights
+        })
         const esResponse = await client.index({
             index: 'logs',
             body: {
                 message,
                 level,
-                metadata,
+                data,
                 insights,
-                timestamp: new Date(),
-            },
+                timestamps: new Date()
+            }
         });
         res.status(201).json({
             success: true,
-            id: esResponse.body._id, insights
+            id: newLog._id,
+            esId: esResponse.body?._id || null,
+            insights
         });
     } catch (error){
         console.error('Log oluşturma sırasında bir hata meydana geldi.', error)
