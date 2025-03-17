@@ -1,7 +1,7 @@
 const OpenAI = require('openai');
 require('dotenv').config({ path: '../configs/config.env'});
 
-const openai = new OpenAI({ apikey: process.env.OPENAIKEY });
+const openai = new OpenAI({ apiKey: process.env.OPENAIKEY });
 
 const AnalyzesLogWithAI = async (logMessage) => {
     try {
