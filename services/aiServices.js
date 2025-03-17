@@ -1,18 +1,16 @@
-const OpenAI = require('openai');
-require('dotenv').config({ path: '../configs/config.env'});
+const { GoogleGenerativeAI } = require('@google/generative-ai');
+require('dotenv').config({ path: '../configs/config.env' });
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 const AnalyzesLogWithAI = async (logMessage) => {
     try {
-        const response = await openai.chat.completions.create({
-            model: 'gpt-4o',
-            message: [{ role: 'system', content: `Analyze the following log and provide insights:\n\n${logMessage}` }],
-        });
-        return response.choices[0].message.content;
+        const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+        const response = await model.generateContent(logMessage);
+        return response.response.text();
     } catch (error){
-        console.error('OpenAI API Error', error);
-        return "Analysis Failed";
+        console.error('Gemini AI hatası', error);
+        return null;
     }
-};
+}
 module.exports = { AnalyzesLogWithAI };
