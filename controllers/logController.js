@@ -31,7 +31,7 @@ const createLog = async (req, res) => {
             }
         });
         console.log(esResponse)
-        const esId = esResponse.body && esResponse.body._id ? esResponse.body._id : null;
+        const esId = esResponse.id || null;
 
         res.status(201).json({
             success: true,
