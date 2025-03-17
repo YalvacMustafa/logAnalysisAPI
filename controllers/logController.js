@@ -24,7 +24,7 @@ const createLog = async (req, res) => {
             body: {
                 message,
                 level,
-                data,
+                metadata,
                 insights,
                 timestamps: new Date()
             }
