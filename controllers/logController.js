@@ -30,10 +30,13 @@ const createLog = async (req, res) => {
                 timestamps: new Date()
             }
         });
+        console.log(esResponse)
+        const esId = esResponse.body && esResponse.body._id ? esResponse.body._id : null;
+
         res.status(201).json({
             success: true,
             id: newLog._id,
-            esId: esResponse.body._id || null,
+            esId: esId,
             insights
         });
     } catch (error){
