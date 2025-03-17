@@ -6,7 +6,7 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 const AnalyzesLogWithAI = async (logMessage) => {
     try {
         const response = await openai.chat.completions.create({
-            model: 'gpt-4',
+            model: 'gpt-4o',
             message: [{ role: 'system', content: `Analyze the following log and provide insights:\n\n${logMessage}` }],
         });
         return response.choices[0].message.content;
