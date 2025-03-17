@@ -19,5 +19,7 @@ const testConnection = async () => {
     }
 };
 
-testConnection();
+(async () => {
+    await testConnection();
+})();
 module.exports = { client }
