@@ -21,6 +21,7 @@ const createLog = async (req, res) => {
         })
         const esResponse = await client.index({
             index: 'logs',
+            refresh: 'wait_for',
             body: {
                 message,
                 level,
@@ -32,7 +33,7 @@ const createLog = async (req, res) => {
         res.status(201).json({
             success: true,
             id: newLog._id,
-            esId: esResponse.body?._id || null,
+            esId: esResponse.body._id || null,
             insights
         });
     } catch (error){

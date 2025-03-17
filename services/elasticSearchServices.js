@@ -13,7 +13,7 @@ const client = new Client({
 const testConnection = async () => {
     try {
         const health = await client.cluster.health();
-        console.log('Elastic Search Bağlantı Başarılı');
+        console.log('Elastic Search Bağlantı Başarılı', health);
     } catch (error){
         console.error('Bağlantı Hatası:', error)
     }
