@@ -6,6 +6,7 @@ const { AnalyzesLogWithAI } = require('../services/aiServices');
 
 const createLog = async (req, res) => {
     try {
+        const id = req.user.id;
         const { level, message, metadata } = req.body;
         let insights = null;
         try {
@@ -18,7 +19,7 @@ const createLog = async (req, res) => {
             level,
             metadata, 
             insights,
-            userId: req.user.id,
+            userId: id
         })
         const esResponse = await client.index({
             index: 'logs',
