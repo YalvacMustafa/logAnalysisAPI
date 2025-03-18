@@ -7,7 +7,7 @@ const logSchema= new Schema({
     timeStamp: { type: Date, default: Date.now },
     metadata: { type: Object },
     insights: { type: Object, default: null },
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'user', required: true }
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
 })
 
 module.exports = mongoose.model('Log', logSchema)
