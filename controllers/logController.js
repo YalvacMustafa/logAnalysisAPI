@@ -51,8 +51,8 @@ const createLog = async (req, res) => {
 
 const getAllLogOfUser = async (req, res, next) => {
     try {
-        const id = req.user.id;
-        const logs = await Log.findById(id);
+        const userId = req.user.id;
+        const logs = await Log.find({ user: userId });
         if (!logs){
             return next(new customerror('Kayıt bulunamadı', 404))
         }
