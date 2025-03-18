@@ -17,7 +17,8 @@ const createLog = async (req, res) => {
             message,
             level,
             metadata, 
-            insights
+            insights,
+            userId: req.user.id,
         })
         const esResponse = await client.index({
             index: 'logs',
@@ -48,4 +49,36 @@ const createLog = async (req, res) => {
     }
 };
 
-module.exports = { createLog };
+const getAllLogOfUser = async (req, res, next) => {
+    try {
+        const id = req.user.id;
+        const logs = await Log.findById(id);
+        if (!logs){
+            return next(new customerror('Kayıt bulunamadı', 404))
+        }
+        res.status(200).json({
+            success: true,
+            data: logs
+        })
+    } catch(error){
+        return next(new customerror('İşlem sırasında bir hata meydana geldi.', 500))
+    }
+}
+
+const getSingleLogOfUser = async (req, res, next) => {
+    try {
+        const { logId } = req.params;
+        const userId = req.user.id;
+        const log = await Log.findOne({ _id: logId, userId})
+        if (!log){
+            return next(new customerror('Kayıt bulunamadı', 404))
+        }
+        res.status(200).json({
+            success: true,
+            data: log
+        })
+    } catch(error){
+        return next(new customerror('İşlem sırasında bir hata meydana geldi.', 500))
+    }
+}
+module.exports = { createLog, getAllLogOfUser, getSingleLogOfUser };

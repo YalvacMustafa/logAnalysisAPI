@@ -6,7 +6,8 @@ const logSchema= new Schema({
     level: { type: String, enum: ['info', 'warn', 'error'], required: true },
     timeStamp: { type: Date, default: Date.now },
     metadata: { type: Object },
-    insights: { type: Object, default: null }
+    insights: { type: Object, default: null },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'user', required: true }
 })
 
 module.exports = mongoose.model('Log', logSchema)
