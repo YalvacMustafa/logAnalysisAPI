@@ -87,13 +87,16 @@ const getUserLogs = async (req, res) => {
     try {
         const { level } = req.params;
         const userId = req.user.id;
-        const filter = { userId };
 
-        if (level){
-            filter.level = level
+        const allowedLevels = ['info', 'warn', 'error'];
+        if (level && !allowedLevels.includes(level)){
+            return res.status(400).json({
+                success: false,
+                message: 'Geçersiz input'
+            });
         }
-
-        const logs = await Log.find(filter)
+        
+        const logs = await Log.find({ userId, ...(level && { level }) });
         if (!logs.length){
             return res.status(404).json({
                 success: false,
