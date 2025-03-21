@@ -132,4 +132,27 @@ const deleteLog = async (req, res, next) => {
         return next(new customerror('İşlem sırasında bir hata meydana geldi.', 500))
     }
 }
-module.exports = { createLog, getAllLogOfUser, getSingleLogOfUser, getUserLogs, deleteLog };
+
+const searchLogs = async (req, res, next) => {
+    try {
+        const { query } = req.query;
+        if (!query){
+            return next(new customerror('Query girilmelidir.', 400))
+        }
+        const { hits } = await client.search({
+            index: 'logs',
+            body: {
+                query: {
+                    match: { message: query }
+                }
+            }
+        });
+        res.status(200).json({
+            success: true,
+            data: hits.hits.map(hit => hit._source)
+        });
+    } catch(error){
+        return next(new customerror('İşlem sırasında bir hata meydana geldi' + error.message, 500))
+    }
+}
+module.exports = { createLog, getAllLogOfUser, getSingleLogOfUser, getUserLogs, deleteLog, searchLogs };
