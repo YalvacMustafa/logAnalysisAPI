@@ -82,4 +82,27 @@ const getSingleLogOfUser = async (req, res, next) => {
         return next(new customerror('İşlem sırasında bir hata meydana geldi.', 500))
     }
 }
-module.exports = { createLog, getAllLogOfUser, getSingleLogOfUser };
+
+const getUserLogs = async (req, res, next) => {
+    try {
+        const { level } = req.query;
+        const filter = { userId: req.user.id }
+
+        if (level){
+            filter.level = level;
+        }
+
+        const logs = await Log.find(filter);
+        if (!logs){
+            return next(new customerror('Kayıt bulunamadı.', 404))
+        }
+
+        res.status(200).json({
+            success: true,
+            data: logs
+        })
+    } catch (error){
+        return next(new customerror('İşlem sırasında bir hata meydana geldi.', 500))
+    }
+}
+module.exports = { createLog, getAllLogOfUser, getSingleLogOfUser, getUserLogs };
