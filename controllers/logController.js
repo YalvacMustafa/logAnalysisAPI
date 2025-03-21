@@ -143,7 +143,9 @@ const searchLogs = async (req, res, next) => {
             index: 'logs',
             body: {
                 query: {
-                    match: { message: query }
+                    wildcard: {
+                        message: `*${query}`
+                    }
                 }
             }
         });
