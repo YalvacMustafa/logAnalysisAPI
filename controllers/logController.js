@@ -93,7 +93,7 @@ const getUserLogs = async (req, res, next) => {
         }
 
         const logs = await Log.find(filter);
-        if (!logs){
+        if (!logs || logs.length === 0){
             return next(new customerror('Kayıt bulunamadı.', 404))
         }
 
@@ -102,6 +102,7 @@ const getUserLogs = async (req, res, next) => {
             data: logs
         })
     } catch (error){
+        console.error('Hata: ', error)
         return next(new customerror('İşlem sırasında bir hata meydana geldi.' + error.message, 500))
     }
 }
