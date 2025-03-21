@@ -88,7 +88,7 @@ const getUserLogs = async (req, res) => {
         console.log('Kullanıcı Bilgisi:', req.user);
         const { level } = req.query;
         const userId =  req.user.id;
-        const filter = userId;
+        const filter = { userId };
 
         if (level){
             filter.level = level;
