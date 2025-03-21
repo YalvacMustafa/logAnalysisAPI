@@ -85,30 +85,27 @@ const getSingleLogOfUser = async (req, res, next) => {
 
 const getUserLogs = async (req, res) => {
     try {
-        console.log('Kullanıcı Bilgisi:', req.user);
-        const { level } = req.query;
-        const userId =  req.user.id;
+        const { level } = req.params;
+        const userId = req.user.id;
         const filter = { userId };
 
         if (level){
-            filter.level = level;
+            filter.level = level
         }
 
-        const logs = await Log.find(filter);
-        if (!logs || logs.length === 0){
+        const logs = await Log.find(filter)
+        if (!logs.length){
             return res.status(404).json({
                 success: false,
-                message: 'Log bulunamadı'
+                message: 'Log bulunamadı.'
             })
         }
-
         res.status(200).json({
             success: true,
             data: logs
-        })
-    } catch (error){
-        console.error('Hata: ', error)
-        return res.status(500).json({
+        });
+    } catch(error){
+        res.status(500).json({
             success: false,
             error: error.message,
             stack: error.stack,

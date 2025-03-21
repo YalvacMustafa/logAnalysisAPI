@@ -6,5 +6,5 @@ const router = express.Router();
 router.post('/create', getAccessToRoute, createLog)
 router.get('/', getAccessToRoute, getAllLogOfUser)
 router.get('/:logId', getAccessToRoute, getSingleLogOfUser)
-router.get('/logs', getAccessToRoute, getUserLogs)
+router.get('/:level?', getAccessToRoute, getUserLogs)
 module.exports = router;
