@@ -83,7 +83,7 @@ const getSingleLogOfUser = async (req, res, next) => {
     }
 }
 
-const getUserLogs = async (req, res, next) => {
+const getUserLogs = async (req, res) => {
     try {
         const { level } = req.query;
         const filter = { userId: req.user.id }
@@ -94,7 +94,10 @@ const getUserLogs = async (req, res, next) => {
 
         const logs = await Log.find(filter);
         if (!logs || logs.length === 0){
-            return next(new customerror('Kayıt bulunamadı.', 404))
+            return res.status(404).json({
+                success: false,
+                message: 'Log bulunamadı'
+            })
         }
 
         res.status(200).json({
