@@ -110,9 +110,26 @@ const getUserLogs = async (req, res) => {
     } catch(error){
         res.status(500).json({
             success: false,
-            error: error.message,
-            stack: error.stack,
+            message: 'İşlem sırasında bir hata meydana geldi.'
         })
     }
 }
-module.exports = { createLog, getAllLogOfUser, getSingleLogOfUser, getUserLogs };
+
+const deleteLog = async (req, res, next) => {
+    try {
+        const { logId } = req.params;
+        const userId  = req.user.id;
+
+        const log = await Log.findOneAndDelete({ _id: logId, userId })
+        if (!log){
+            return next(new customerror('Log bulunamadı.', 404))
+        }
+        res.status(200).json({
+            success: true,
+            message: 'Başarıyla silinmiştir.'
+        })
+    } catch(error){
+        return next(new customerror('İşlem sırasında bir hata meydana geldi.', 500))
+    }
+}
+module.exports = { createLog, getAllLogOfUser, getSingleLogOfUser, getUserLogs, deleteLog };
