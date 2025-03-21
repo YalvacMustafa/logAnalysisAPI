@@ -103,7 +103,11 @@ const getUserLogs = async (req, res, next) => {
         })
     } catch (error){
         console.error('Hata: ', error)
-        return next(new customerror('İşlem sırasında bir hata meydana geldi.' + error.message, 500))
+        return res.status(500).json({
+            success: false,
+            error: error.message,
+            stack: error.stack,
+        })
     }
 }
 module.exports = { createLog, getAllLogOfUser, getSingleLogOfUser, getUserLogs };
