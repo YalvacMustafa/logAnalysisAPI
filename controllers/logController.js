@@ -120,7 +120,7 @@ const deleteLog = async (req, res, next) => {
         const { logId } = req.params;
         const userId  = req.user.id;
 
-        const log = await Log.findOneAndDelete({ _id: logId, userId })
+        const log = await Log.deleteOne({ _id: logId, userId })
         if (!log){
             return next(new customerror('Log bulunamadı.', 404))
         }
